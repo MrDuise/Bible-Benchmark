@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {<input type="text" name="searchText" /> <input type="submit" name="btnSearch" value="Search" />}
+</div>
