@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Bible_Benchmark.Models.Verse>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Verse Location
+            </th>
+            <th>
+                Verse Text
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.BookName | @item.ChapterId:@item.VerseId
+            </td>
+            <td>
+                @item.VerseText
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -15,6 +15,8 @@ namespace Bible_Benchmark.Models
 
         public string VerseText { get; set; }
 
+
+
         public Verse(int bookId, int chapterId, int verseId, string verseText)
         {
             BookId = bookId;
