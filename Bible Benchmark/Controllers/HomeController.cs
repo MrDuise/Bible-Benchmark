@@ -45,19 +45,14 @@ namespace Bible_Benchmark.Controllers
             return verses;
         }
 
-       public IActionResult Search()
+       public IActionResult Search(string searchText, string searchChoice)
         {
             BibleDAO dAO = new BibleDAO();
-            List<Verse> verses = dAO.FindVersesBySearchString("Noah", "OldTest");
+            List<Verse> verses = dAO.FindVersesBySearchString(searchText, searchChoice);
 
             verses = updateBookName(verses);
 
-            foreach (Verse ver in verses)
-            {
-
-                Console.WriteLine(ver.BookName);
-            }
-            return View(verses);
+            return View("Search", verses);
         }
     }
 }

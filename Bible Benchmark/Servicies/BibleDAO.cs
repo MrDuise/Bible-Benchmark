@@ -38,14 +38,14 @@ namespace Bible_Benchmark.Servicies
 
 
 
-                        if (bookSearch == "Entire")
+                        if (bookSearch == "both")
                         {
                             verses.Add(new Verse((int)reader[1], (int)reader[2], (int)reader[3], (string)reader[4]));
                         }
 
 
 
-                        if (bookSearch == "OldTest")
+                        if (bookSearch == "oldTest")
                         {
                             if (bookNumber >= 1 && bookNumber <= 37)
                             {
@@ -53,7 +53,7 @@ namespace Bible_Benchmark.Servicies
                             }
                         }
 
-                        if (bookSearch == "NewTest")
+                        if (bookSearch == "newTest")
                         {
 
                             if (bookNumber >= 38 && bookNumber <= 66)
