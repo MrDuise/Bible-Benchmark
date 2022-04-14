@@ -11,19 +11,21 @@ namespace Bible_Benchmark.Servicies
     {
         String connectionString = "datasource=localhost;port=3306;username=root;password=root;database=bible-app;";
 
-        public enum BookSearch { Entire, OldTestiment, NewTestiment };
+        
         //BookSearch bookSearch = BookSearch.Entire
-        public List<Verse> FindVersesBySearchString(String searchFor)
+        public List<Verse> FindVersesBySearchString(String searchFor, String bookSearch)
         {
             List<Verse> verses = new List<Verse>();
+            var updatedVerses = new List<Verse>();
 
             //Uses prepared statements for security. @username @password are defined below
-            String sqlStatement = "SELECT * FROM `t_asv` WHERE Name Like @verse";
+            String sqlStatement = "SELECT * FROM `t_asv` WHERE t Like @verse";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 MySqlCommand command = new MySqlCommand(sqlStatement, connection);
                 command.Parameters.AddWithValue("@verse", '%' + searchFor + '%');
+
 
                 try
                 {
@@ -32,7 +34,36 @@ namespace Bible_Benchmark.Servicies
 
                     while (reader.Read())
                     {
-                        verses.Add(new Verse((int)reader[1], (int)reader[2], (int)reader[3], (string)reader[4]));
+                        int bookNumber = (int)reader[1];
+
+
+
+                        if (bookSearch == "Entire")
+                        {
+                            verses.Add(new Verse((int)reader[1], (int)reader[2], (int)reader[3], (string)reader[4]));
+                        }
+
+
+
+                        if (bookSearch == "OldTest")
+                        {
+                            if (bookNumber >= 1 && bookNumber <= 37)
+                            {
+                                verses.Add(new Verse((int)reader[1], (int)reader[2], (int)reader[3], (string)reader[4]));
+                            }
+                        }
+
+                        if (bookSearch == "NewTest")
+                        {
+
+                            if (bookNumber >= 38 && bookNumber <= 66)
+                            {
+                                verses.Add(new Verse((int)reader[1], (int)reader[2], (int)reader[3], (string)reader[4]));
+                            }
+                        }
+
+
+
                     }
                 }
                 catch (Exception ex)
@@ -43,10 +74,10 @@ namespace Bible_Benchmark.Servicies
             return verses;
         }
 
-        public List<string> findAllBooks()
+        public List<Book> findAllBooks()
         {
             //list of books
-            List<string> books = new List<string>();
+            List<Book> books = new List<Book>();
 
             //Uses prepared statements for security. @username @password are defined below
             String sqlStatement = "SELECT * FROM `key_english`";
@@ -55,7 +86,7 @@ namespace Bible_Benchmark.Servicies
             {
                 MySqlCommand command = new MySqlCommand(sqlStatement, connection);
 
-                
+
 
                 try
                 {
@@ -64,10 +95,10 @@ namespace Bible_Benchmark.Servicies
 
                     if (reader.HasRows)
                     {
-                       
+
                         while (reader.Read())
                         {
-                            books.Add((string)reader[1]);
+                            books.Add(new Book((int)reader[0], (string)reader[1]));
                         }
                     }
                 }
@@ -80,24 +111,8 @@ namespace Bible_Benchmark.Servicies
             return books;
         }
 
-        public bool findBookByName(string searchName)
-        {
-            return true;
-        }
 
-        public bool findBookByID(int Id)
-        {
-            return true;
-        }
 
-        public bool findChapterById(int id)
-        {
-            return true;
-        }
 
-        public bool findVersebyId(int id)
-        {
-            return true;
-        }
     }
 }

@@ -1,10 +1,62 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Bible_Benchmark.Models.Verse>
 
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 
-
-<div>
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-    {<input type="text" name="searchText" /> <input type="submit" name="btnSearch" value="Search" />}
-</div>
+<form asp-controller="Home"  method="post">
+    Select Testament to Search: @Html.DropDownList("Testament")
+    <br />
+    <br />
+    <input type="text" name="searchText" />
+    <input type="submit" name="btnSearch" value="Search" />
+    </form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChapterId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VerseId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VerseText)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChapterId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VerseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VerseText)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
