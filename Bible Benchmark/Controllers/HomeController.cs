@@ -21,25 +21,43 @@ namespace Bible_Benchmark.Controllers
 
         public IActionResult Index()
         {
+
+            return View();
+        }
+
+
+        public List<Verse> updateBookName(List<Verse> verses)
+        {
             BibleDAO dAO = new BibleDAO();
-            var books = dAO.findAllBooks();
-            for(int i = 0; i < books.Count; i++)
+            List<Book> books = dAO.findAllBooks();
+
+            for (int i = 0; i < verses.Count(); i++)
             {
-                Console.WriteLine(books.ElementAt(i));
+                for (int a = 0; a < books.Count(); a++)
+                {
+                    if (books.ElementAt(a).BookId == verses.ElementAt(i).BookId)
+                    {
+                        verses.ElementAt(i).BookName = books.ElementAt(a).BookName;
+                    }
+                }
             }
-            
-            return View();
+
+            return verses;
         }
 
-        public IActionResult Privacy()
+       public IActionResult Search()
         {
-            return View();
-        }
+            BibleDAO dAO = new BibleDAO();
+            List<Verse> verses = dAO.FindVersesBySearchString("Noah", "OldTest");
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            verses = updateBookName(verses);
+
+            foreach (Verse ver in verses)
+            {
+
+                Console.WriteLine(ver.BookName);
+            }
+            return View(verses);
         }
     }
 }
